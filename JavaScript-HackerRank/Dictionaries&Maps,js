@@ -1,0 +1,19 @@
+function processData(input) {
+  //Enter your code here
+  let arr = input.split("\n");
+  const n = parseInt(arr[0]);
+  let mapArr = new Map();
+
+  for (let i = 1; i <= n; i++) {
+    let [name, prop] = arr[i].split(" ");
+    mapArr.set(name, parseInt(prop));
+  }
+
+  for (let i = n + 1; i < arr.length; i++) {
+    if (mapArr.has(arr[i])) {
+      console.log(`${arr[i]}=${mapArr.get(arr[i])}`);
+    } else {
+      console.log("Not found");
+    }
+  }
+}
