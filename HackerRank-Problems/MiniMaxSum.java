@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class MiniMaxSum {
     public static void miniMaxSum(List<Integer> arr) {
         // Write your code here
