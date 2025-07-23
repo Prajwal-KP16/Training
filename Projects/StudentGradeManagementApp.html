@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Grade Manager</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      .form-section {
+        padding: 30px;
+        background: #f8f9fa;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+      }
+
+      input[type="text"]:focus,
+      input[type="number"]:focus,
+      select:focus {
+        outline: none;
+        border-color: #4facfe;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+      }
+
+      .form-row {
+        display: flex;
+        gap: 20px;
+      }
+
+      .form-row .form-group {
+        flex: 1;
+      }
+
+      .btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .students-section {
+        padding: 30px;
+      }
+
+      .students-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .students-header h2 {
+        color: #333;
+        font-size: 1.8rem;
+      }
+
+      .stats {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        flex: 1;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-card h3 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #d63384;
+      }
+
+      .student-list {
+        display: grid;
+        gap: 15px;
+      }
+
+      .student-card {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 20px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .student-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .student-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .student-name {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .student-id {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .grade-badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .grade-a {
+        background: #d4edda;
+        color: #155724;
+      }
+      .grade-b {
+        background: #cce5ff;
+        color: #004085;
+      }
+      .grade-c {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .grade-d {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      .grade-f {
+        background: #f5c6cb;
+        color: #721c24;
+      }
+
+      .student-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .subject-grade {
+        font-size: 1.1rem;
+        color: #666;
+      }
+
+      .delete-btn {
+        background: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background 0.2s ease;
+      }
+
+      .delete-btn:hover {
+        background: #c82333;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+      }
+
+      .empty-state h3 {
+        margin-bottom: 10px;
+        color: #999;
+      }
+
+      @media (max-width: 768px) {
+        .form-row {
+          flex-direction: column;
+        }
+
+        .stats {
+          flex-direction: column;
+        }
+
+        .students-header {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>📚 Grade Manager</h1>
+        <p>Track student performance with ease</p>
+      </div>
+
+      <div class="form-section">
+        <form id="studentForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="studentName">Student Name:</label>
+              <input type="text" id="studentName" name="studentName" required />
+            </div>
+            <div class="form-group">
+              <label for="studentId">Student ID:</label>
+              <input type="text" id="studentId" name="studentId" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="subject">Subject:</label>
+              <select id="subject" name="subject" required>
+                <option value="">Select Subject</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Physics">Physics</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Biology">Biology</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="grade">Grade (0-100):</label>
+              <input
+                type="number"
+                id="grade"
+                name="grade"
+                min="0"
+                max="100"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn">Add Student Grade</button>
+        </form>
+      </div>
+
+      <div class="students-section">
+        <div class="students-header">
+          <h2>Students Overview</h2>
+          <button class="btn" onclick="clearAllStudents()">Clear All</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <h3>Total Students</h3>
+            <div class="stat-value" id="totalStudents">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Average Grade</h3>
+            <div class="stat-value" id="averageGrade">0</div>
+          </div>
+          <div class="stat-card">
+            <h3>Highest Grade</h3>
+            <div class="stat-value" id="highestGrade">0</div>
+          </div>
+        </div>
+
+        <div id="studentList" class="student-list">
+          <div class="empty-state">
+            <h3>No students added yet</h3>
+            <p>Add your first student using the form above</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Array to store all students - this is our "database"
+      let students = [];
+
+      // Get references to DOM elements we'll use frequently
+      const form = document.getElementById("studentForm");
+      const studentList = document.getElementById("studentList");
+      const totalStudentsEl = document.getElementById("totalStudents");
+      const averageGradeEl = document.getElementById("averageGrade");
+      const highestGradeEl = document.getElementById("highestGrade");
+
+      // Function to convert numeric grade to letter grade
+      function getLetterGrade(score) {
+        if (score >= 90) return "A";
+        if (score >= 80) return "B";
+        if (score >= 70) return "C";
+        if (score >= 60) return "D";
+        return "F";
+      }
+
+      // Function to get CSS class for grade styling
+      function getGradeClass(letter) {
+        return `grade-${letter.toLowerCase()}`;
+      }
+
+      // Function to update statistics
+      function updateStats() {
+        const total = students.length;
+        totalStudentsEl.textContent = total;
+
+        if (total === 0) {
+          averageGradeEl.textContent = "0";
+          highestGradeEl.textContent = "0";
+          return;
+        }
+
+        // Calculate average grade
+        const sum = students.reduce((acc, student) => acc + student.grade, 0);
+        const average = Math.round(sum / total);
+        averageGradeEl.textContent = average;
+
+        // Find highest grade
+        const highest = Math.max(...students.map((student) => student.grade));
+        highestGradeEl.textContent = highest;
+      }
+
+      // Function to render all students
+      function renderStudents() {
+        // Clear the current list
+        studentList.innerHTML = "";
+
+        // If no students, show empty state
+        if (students.length === 0) {
+          studentList.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No students added yet</h3>
+                        <p>Add your first student using the form above</p>
+                    </div>
+                `;
+          return;
+        }
+
+        // Create HTML for each student
+        students.forEach((student, index) => {
+          const letterGrade = getLetterGrade(student.grade);
+          const gradeClass = getGradeClass(letterGrade);
+
+          const studentCard = document.createElement("div");
+          studentCard.className = "student-card";
+          studentCard.innerHTML = `
+                    <div class="student-header">
+                        <div>
+                            <div class="student-name">${student.name}</div>
+                            <div class="student-id">ID: ${student.id}</div>
+                        </div>
+                        <div class="grade-badge ${gradeClass}">
+                            ${letterGrade}
+                        </div>
+                    </div>
+                    <div class="student-details">
+                        <div class="subject-grade">
+                            ${student.subject}: ${student.grade}%
+                        </div>
+                        <button class="delete-btn" onclick="deleteStudent(${index})">
+                            Delete
+                        </button>
+                    </div>
+                `;
+
+          studentList.appendChild(studentCard);
+        });
+
+        // Update statistics
+        updateStats();
+      }
+
+      // Function to add a new student
+      function addStudent(name, id, subject, grade) {
+        // Check if student ID already exists
+        const existingStudent = students.find((student) => student.id === id);
+        if (existingStudent) {
+          alert("Student ID already exists! Please use a different ID.");
+          return false;
+        }
+
+        // Create new student object
+        const newStudent = {
+          name: name,
+          id: id,
+          subject: subject,
+          grade: parseInt(grade),
+        };
+
+        // Add to students array
+        students.push(newStudent);
+
+        // Re-render the student list
+        renderStudents();
+
+        return true;
+      }
+
+      // Function to delete a student
+      function deleteStudent(index) {
+        // Confirm deletion
+        if (confirm("Are you sure you want to delete this student?")) {
+          // Remove student from array
+          students.splice(index, 1);
+
+          // Re-render the student list
+          renderStudents();
+        }
+      }
+
+      // Function to clear all students
+      function clearAllStudents() {
+        if (students.length === 0) {
+          alert("No students to clear!");
+          return;
+        }
+
+        if (confirm("Are you sure you want to delete all students?")) {
+          students = [];
+          renderStudents();
+        }
+      }
+
+      // Event listener for form submission
+      form.addEventListener("submit", function (e) {
+        // Prevent the default form submission behavior
+        e.preventDefault();
+
+        // Get form values
+        const name = document.getElementById("studentName").value.trim();
+        const id = document.getElementById("studentId").value.trim();
+        const subject = document.getElementById("subject").value;
+        const grade = document.getElementById("grade").value;
+
+        // Validate inputs
+        if (!name || !id || !subject || !grade) {
+          alert("Please fill in all fields!");
+          return;
+        }
+
+        if (grade < 0 || grade > 100) {
+          alert("Grade must be between 0 and 100!");
+          return;
+        }
+
+        // Add student
+        if (addStudent(name, id, subject, grade)) {
+          // Clear form if successful
+          form.reset();
+
+          // Show success message
+          alert("Student added successfully!");
+        }
+      });
+
+      // Initialize the page
+      renderStudents();
+    </script>
+  </body>
+</html>
