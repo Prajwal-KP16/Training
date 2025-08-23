@@ -7,14 +7,14 @@ export class DatabaseService {
   bucket;
 
   constructor() {
-    this.client()
+    this.client
       .setEndpoint(conf.appwriteUrl)
       .setProject(conf.appwriteProjectId);
     this.databases = new Databases(this.client);
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, featureImage, status, userId }) {
+  async createPost({ title, slug, content, featuredImage, status, userId }) {
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
@@ -23,7 +23,7 @@ export class DatabaseService {
         {
           title,
           content,
-          featureImage,
+          featuredImage,
           status,
           userId,
         }
@@ -33,7 +33,7 @@ export class DatabaseService {
     }
   }
 
-  async updatePost(slug, { title, content, featureImage, status }) {
+  async updatePost(slug, { title, content, featuredImage, status }) {
     try {
       return await this.databases.updateDocument(
         conf.appwriteDatabaseId,
@@ -42,7 +42,7 @@ export class DatabaseService {
         {
           title,
           content,
-          featureImage,
+          featuredImage,
           status,
         }
       );
@@ -112,6 +112,7 @@ export class DatabaseService {
       return true;
     } catch (error) {
       console.log("Appwrite service :: deleteFile :: error ", error);
+      return false;
     }
   }
 
